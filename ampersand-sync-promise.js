@@ -1,6 +1,7 @@
 var _ = require('underscore');
 var xhr = require('xhr');
 var qs = require('qs');
+var q = require('q');
 
 
 // Throw an error when a URL is needed, and none is supplied.
@@ -89,24 +90,33 @@ module.exports = function (method, model, options) {
     // Turn a jQuery.ajax formatted request into xhr compatible
     params.method = params.type;
 
+    var deferred = q.defer();
+    if(options.error && _.isFunction(options.error)){
+      deferred.promise.fail(options.error);
+    }
+    if(options.success && _.isFunction(options.success)){
+      deferred.promise.then(options.success);
+    }
+
     var ajaxSettings = _.extend(params, options);
 
     // Make the request. The callback executes functions that are compatible
     // With jQuery.ajax's syntax.
     var request = options.xhr = xhr(ajaxSettings, function (err, resp, body) {
-        if (err && options.error) return options.error(resp, 'error', err.message);
+        if (err && options.error) return deferred.reject(resp, 'error', err.message);
 
-        // Parse body as JSON if a string.
         if (body && typeof body === 'string') {
-            try {
-                body = JSON.parse(body);
-            } catch (e) {}
+          try {
+            body = JSON.parse(body);
+          } catch (e) {}
         }
-        if (options.success) return options.success(body, 'success', resp);
+
+        if (options.success) return deferred.resolve(body, 'success', resp);
     });
-    model.trigger('request', model, request, options, ajaxSettings);
     request.ajaxSettings = ajaxSettings;
-    return request;
+    model.trigger('request', model, request, options, ajaxSettings);
+
+    return deferred.promise;
 };
 
 // Map from CRUD to HTTP for our default `Backbone.sync` implementation.
