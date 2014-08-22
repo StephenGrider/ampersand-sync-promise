@@ -158,77 +158,78 @@ test('update with just emulateHTTP', function (t) {
   sync('update', model, options);
 });
 
+test("update with just emulateJSON", function (t) {
+  
 
-// test("update with just emulateJSON", function (t) {
-//   var xhr = sync('update', getStub({
-//     id: '2-the-tempest',
-//     author: 'Tim Shakespeare',
-//     length: 123
-//   }),
-//   {
-//     emulateJSON: true
-//   }
-// );
-// t.equal(xhr.ajaxSettings.url, '/library');
-// t.equal(xhr.ajaxSettings.type, 'PUT');
-// t.equal(xhr.ajaxSettings.headers['Content-Type'], 'application/x-www-form-urlencoded');
-// t.equal(xhr.ajaxSettings.body, 'model%5Bid%5D=2-the-tempest&model%5Bauthor%5D=Tim%20Shakespeare&model%5Blength%5D=123');
-// t.end();
-// });
+  model.on('request', function(model, xhr, options, ajaxSettings){
+    t.equal(ajaxSettings.url, '/hi');
+    t.equal(ajaxSettings.type, 'PUT');
+    t.equal(ajaxSettings.headers['Content-Type'], 'application/x-www-form-urlencoded');
+    t.equal(ajaxSettings.body, 'model%5Btitle%5D=Midsummer%20Nights%20Dream&model%5Bauthor%5D=Shakespeare&model%5Blength%5D=123');
+    t.end();
+  });
+  
+  var options = {
+    emulateJSON: true
+  };
+  
+  sync('update', model, options);
+  
+});
 
-// test('delete', function (t) {
-//   var xhr = sync('delete', getStub({
-//     author: 'Tim Shakespeare',
-//     length: 123
-//   }));
-//   t.equal(xhr.ajaxSettings.url, '/library');
-//   t.equal(xhr.ajaxSettings.type, 'DELETE');
-//   t.notOk(xhr.ajaxSettings.data);
-//   t.end();
-// });
-//
-//
-// test('destroy with emulateHTTP', function (t) {
-//   var xhr = sync('delete', getStub({
-//     author: 'Tim Shakespeare',
-//     length: 123
-//   }),
-//   {
-//     emulateHTTP: true,
-//     emulateJSON: true
-//   }
-// );
-// t.equal(xhr.ajaxSettings.url, '/library');
-// t.equal(xhr.ajaxSettings.type, 'POST');
-// t.equal(xhr.ajaxSettings.body, '_method=DELETE');
-// t.end();
-// });
-//
-// test('urlError', function (t) {
-//   t.throws(function () {
-//     var xhr = sync('read', {});
-//   }, Error);
-//   t.end();
-// });
-//
+test('delete', function (t) {
+  model.on('request', function(model, xhr, options, ajaxSettings){
+    t.equal(ajaxSettings.url, '/hi');
+    t.equal(ajaxSettings.type, 'DELETE');
+    t.notOk(ajaxSettings.data);
+    t.end();
+  });
+  
+  sync('delete', model);
+});
+
+test('destroy with emulateHTTP', function (t) {
+  model.on('request', function(model, xhr, options, ajaxSettings){
+    t.equal(xhr.ajaxSettings.url, '/hi');
+    t.equal(xhr.ajaxSettings.type, 'POST');
+    t.equal(xhr.ajaxSettings.body, '_method=DELETE');
+    t.end();
+  });
+
+  var options = {
+    emulateHTTP: true,
+    emulateJSON: true
+  };
+  sync('delete', model, options);
+});
+
+test('urlError', function (t) {
+  t.throws(function () {
+    var xhr = sync('read', {});
+  }, Error);
+  t.end();
+});
+
+test('Call user provided beforeSend function.', function (t) {
+  t.plan(1);
+
+  var options = {
+    beforeSend: function (_xhr) {
+      t.pass();
+    },
+    emulateHTTP: true
+  };
+  sync('delete', model, options);
+  t.end();
+});
+
 // test('Call provided error callback on error.', function (t) {
 //   t.plan(1);
-//   var xhr = sync('read', getStub(), {
+//   sync('read', model, {
 //     error: function () {
 //       t.pass();
 //       t.end();
 //     }
 //   });
 //   xhr.ajaxSettings.error();
-// });
-//
-// test('Call user provided beforeSend function.', function (t) {
-//   t.plan(1);
-//   var xhr = sync('delete', getStub(), {
-//     beforeSend: function (_xhr) {
-//       t.pass();
-//     },
-//     emulateHTTP: true
-//   });
-//   t.end();
 // });
