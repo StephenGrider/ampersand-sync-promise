@@ -36,6 +36,10 @@
     "type": "git",
     "url": "https://github.com/ampersandjs/ampersand-sync.git"
   },
+  "scripts": {
+    "start": "run-browser test/*",
+    "test": "browserify test/* | tape-run | tap-spec"
+  },
   "testling": {
     "files": "test/*.js",
     "browsers": [
