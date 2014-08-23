@@ -1,10 +1,10 @@
 {
-  "name": "ampersand-sync",
-  "description": "Standalone, modern-browser-only version of Backbone.Sync as Common JS module.",
-  "version": "2.0.2",
-  "author": "Henrik Joreteg <henrik@andyet.net>",
+  "name": "ampersand-sync-promise",
+  "description": "Standalone, modern-browser-only version of Backbone.Sync as Common JS module. Fork of the original ampersand-js-sync, but instead returns a promise.  All credit to original Ampersand JS team.",
+  "version": "1.0.0",
+  "author": "Stephen Grider <ste.grider@gmail.com",
   "bugs": {
-    "url": "https://github.com/ampersandjs/ampersand-sync/issues"
+    "url": "https://github.com/stephengrider/ampersand-sync-promise/issues"
   },
   "dependencies": {
     "qs": "^1.2.1",
@@ -23,7 +23,7 @@
     "tape-run": "^0.3.0",
     "redtape": "1.0.0"
   },
-  "homepage": "https://github.com/ampersandjs/ampersand-sync",
+  "homepage": "https://github.com/stephengrider/ampersand-sync-promise",
   "keywords": [
     "backbone",
     "sync",
@@ -31,10 +31,10 @@
     "ampersand"
   ],
   "license": "MIT",
-  "main": "ampersand-sync.js",
+  "main": "ampersand-sync-promise.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ampersandjs/ampersand-sync.git"
+    "url": "https://github.com/stephengrider/ampersand-sync-promise.git"
   },
   "scripts": {
     "start": "run-browser test/*",
