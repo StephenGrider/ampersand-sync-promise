@@ -95,7 +95,7 @@ module.exports = function (method, model, options) {
       deferred.promise.fail(options.error);
     }
     if(options.success && _.isFunction(options.success)){
-      deferred.promise.then(options.success);
+      deferred.promise.done(options.success);
     }
 
     var ajaxSettings = _.extend(params, options);
