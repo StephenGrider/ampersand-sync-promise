@@ -103,7 +103,7 @@ module.exports = function (method, model, options) {
     // Make the request. The callback executes functions that are compatible
     // With jQuery.ajax's syntax.
     var request = options.xhr = xhr(ajaxSettings, function (err, resp, body) {
-        if (err && options.error) return deferred.reject(resp, 'error', err.message);
+        if (err) return deferred.reject(resp, 'error', err.message);
 
         if (body && typeof body === 'string') {
           try {

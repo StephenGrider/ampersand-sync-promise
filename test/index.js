@@ -223,13 +223,12 @@ test('Call user provided beforeSend function.', function (t) {
   t.end();
 });
 
-// test('Call provided error callback on error.', function (t) {
-//   t.plan(1);
-//   sync('read', model, {
-//     error: function () {
-//       t.pass();
-//       t.end();
-//     }
-//   });
-//   xhr.ajaxSettings.error();
-// });
+test('Sync returns a promise', function(t) {
+  t.plan(2);
+  
+  var promise = sync('read', model);
+  
+  t.ok(promise.done);
+  t.ok(promise.finally);
+  t.end();
+});
