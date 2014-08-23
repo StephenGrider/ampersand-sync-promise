@@ -1,4 +1,4 @@
-# ampersand-sync
+# ampersand-sync-edit
 
 Standalone, modern-browser-only version of Backbone.Sync as Common JS module.
 
